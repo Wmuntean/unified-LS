@@ -1,0 +1,21 @@
+// SET WORKSPACE SPECIFIC SNIPPETS
+
+// {
+//     "Set Research Paths": {
+//         "prefix": "rRoot",
+//         "description": "Root Path for Research Projects",
+//         "body": [
+//             "${1:import sys\nfrom pathlib import Path}",
+//             "",
+//             "root_path = (",
+//             "\tPath(\"__file__\").resolve().parents[${2|1,0|}]",
+//             ")  # 0 for .py or unsaved notebooks and 1 for .ipynb",
+//             "sys.path.append(root_path.as_posix())",
+//             "",
+//             "data_path = root_path / \"data\"",
+//             "results_path = root_path / \"results\"",
+//             "prompts_path = data_path / \"prompts\"",
+//             "$0"
+//         ]
+//     }
+// }

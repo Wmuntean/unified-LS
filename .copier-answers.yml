@@ -1,0 +1,9 @@
+# Changes here will be overwritten by Copier; NEVER EDIT MANUALLY
+_commit: v0.1.2-1-gc04a8da
+_src_path: https://github.com/Wmuntean/research-template.git
+is_private_repo: false
+license: GPL-3.0-or-later
+project_description: COTS 2025 Research on Unified Latent Space IRT Model
+project_name: unified_ls
+repo_name: unified-LS
+use_organization: false
