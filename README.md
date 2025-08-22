@@ -1,27 +1,30 @@
 # unified-LS <!-- omit in toc -->
 
+## Documentation
+- API documentation is available at https://Wmuntean.github.io/unified_ls/
+  
 ## Overview
 - **Project Description:**
     - COTS 2025 Research on Unified Latent Space IRT Model
     - Key focuses:
-        - List any important focus areas.
+        - Determine the relationship between the magnitude of influence on the latent space distance and Yen's Q3 for item dependency.
 - **Research Goals:**
-    1. Goal 1
-    2. Goal 2
-    3. Goal 3
+    1. Model LS-IRT for response data, response time data, and process data.
+    2. See relationship between Yen's Q3 item dependency for each model separately.
+    3. Unify each model via a single gamma for the latent space influence.
 - **Scope:**
-    - Define the scope of the research.
+    - Validate models through a small empirical dataset.
 - **Note:**
-    - List any important notes.
-    - Example: The repository does not contain any data nor results. The raw data references local and network copies.
+    - This repository does not contain any empirical data nor results. The raw data references local copies.
+
 ## Table of Contents
-1. [Overview](#overview)
-2. [Table of Contents](#table-of-contents)
-3. [Installation](#installation)
+1. [Documentation](#documentation)
+2. [Overview](#overview)
+3. [Table of Contents](#table-of-contents)
+4. [Installation](#installation)
     1. [Clone repository:](#clone-repository)
     2. [Install requirements in working environment:](#install-requirements-in-working-environment)
     3. [Set system path in python editor:](#set-system-path-in-python-editor)
-4. [Documentation](#documentation)
 5. [Data](#data)
 6. [Usage](#usage)
 7. [Modules](#modules)
@@ -62,15 +65,10 @@ print(unified_ls.__version__)
 ```
 
 
-## Documentation
-
-
-- API documentation is available at https://Wmuntean.github.io/unified_ls/
-
 
 ## Data
 - **Data Sources:** Raw data is located in local folders and network copies.
-- **Data Structure:** Data are processed via ... See `data_import.py` for details.
+- **Data Structure:** Data are pre-processed the `data_import.py` script.
   
 ## Usage
 - **Run Analyses:** 
@@ -83,7 +81,7 @@ python analysis/module_name_2.py
 ## Modules
 <!-- data_import -->
 [`data_import.py`](#utils.data_import):
-- Data import description.
+- Imports, parses, and cleans item-level interaction and response data from XML and zipped files, producing a unified DataFrame for modeling and analyses.
 <!-- module_name 1 -->
 [`module_name.py`](#module.location): 
 - Module description.
