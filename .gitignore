@@ -177,4 +177,4 @@ cython_debug/
 !.vscode/*.code-snippets
 .github/*
 !.github/workflows/
-config.yml
+config.yaml
