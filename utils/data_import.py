@@ -71,9 +71,9 @@ Final DataFrame Variables
 =========================
 The final DataFrame produced by this module contains the following columns:
 
-    - ``person_id``: 0-indexed person identifier.
-    - ``item_id``: 0-indexed item identifier.
-    - ``itemset_id``: 0-indexed item set identifier.
+    - ``person_id``: 1-indexed person identifier.
+    - ``item_id``: 1-indexed item identifier.
+    - ``itemset_id``: 1-indexed item set identifier.
     - ``rt``: Response time (seconds) for each item.
     - ``op_theta``: Operational theta (ability estimate).
     - ``item_type``: Item type label.
@@ -425,9 +425,9 @@ if __name__ == "__main__":
         how="inner",
     )
 
-    df["person_id"] = pd.factorize(df["person_id"])[0]
-    df["item_id"] = pd.factorize(df["item_id"])[0]
-    df["itemset_id"] = pd.factorize(df["itemset_id"])[0]
+    df["person_id"] = pd.factorize(df["person_id"])[0] + 1
+    df["item_id"] = pd.factorize(df["item_id"])[0] + 1
+    df["itemset_id"] = pd.factorize(df["itemset_id"])[0] + 1
     df["itemset_id"] = df["itemset_id"].replace(-1, pd.NA)
     df["score"] = df["score"].astype(int)
 
