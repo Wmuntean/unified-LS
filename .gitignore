@@ -178,3 +178,5 @@ cython_debug/
 .github/*
 !.github/workflows/
 config.yaml
+*.exe
+*.dll
