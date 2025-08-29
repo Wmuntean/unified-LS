@@ -135,6 +135,8 @@ if __name__ == "__main__":
         "threshold_start": threshold_start,
         "total_thresholds": total_thresholds,
         "max_categories": df_resp["max_score"].max() + 1,
+        "n_persons": df_resp["person_id"].nunique(),
+        "D": 2,
     }
 
     stan_model = MODEL_PATH / "ls_pcm_fixed_theta.stan"
@@ -151,5 +153,5 @@ if __name__ == "__main__":
         "log_rt": df_resp["log_rt"].to_numpy(),
     }
 
-    stan_model = MODEL_PATH / "ls_LNRT.stan"
+    stan_model = MODEL_PATH / "ls_lnrt.stan"
     run_stan_model(model_path=stan_model, run_name="ls-lnrt", stan_data=stan_data)
