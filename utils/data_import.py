@@ -425,12 +425,6 @@ if __name__ == "__main__":
         how="inner",
     )
 
-    df["person_id"] = pd.factorize(df["person_id"])[0] + 1
-    df["item_id"] = pd.factorize(df["item_id"])[0] + 1
-    df["itemset_id"] = pd.factorize(df["itemset_id"])[0] + 1
-    df["itemset_id"] = df["itemset_id"].replace(-1, pd.NA)
-    df["score"] = df["score"].astype(int)
-
     # Clean process data error
     mean_exhibit_interactions = df.groupby("item_id")["exhibit_interactions"].transform(
         "mean"
@@ -438,6 +432,13 @@ if __name__ == "__main__":
     mask = mean_exhibit_interactions > 0.009
     df.loc[mask, "has_exhibit"] = True
     df.loc[~mask, "exhibit_interactions"] = 0
+    df["score"] = df["score"].astype(int)
     df = collapse_scores_equal_freq(df)
+    df = df[df["item_type"] != "Drop_Cloze"]
+
+    df["person_id"] = pd.factorize(df["person_id"])[0] + 1
+    df["item_id"] = pd.factorize(df["item_id"])[0] + 1
+    df["itemset_id"] = pd.factorize(df["itemset_id"])[0] + 1
+    df["itemset_id"] = df["itemset_id"].replace(-1, pd.NA)
 
     df.to_parquet(DATA_PATH / "COTS_2025_data.parquet")

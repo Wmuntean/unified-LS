@@ -88,9 +88,8 @@ model {
     int n_cats = categories_per_item[n];
     int idx_start = threshold_start[item];
     
-    // --- Core Latent Space Calculation ---
-    // 1. Calculate the Euclidean distance for this person-item pair
-    //    using the *centered* item positions.
+    // Calculate the Euclidean distance in the latent space
+    // using the *centered* item positions.
     real dist = distance(xi[person], zt_centered[item]);
     // real dist = distance(xi[person], zt[item]);
     
