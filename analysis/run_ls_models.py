@@ -91,7 +91,7 @@ def run_stan_model(model_path: Path | str, run_name: Path | str, stan_data: dict
         df_fit, aligned_person_coords, aligned_item_coords, D=2
     )
 
-    df_fit_aligned.to_parquet(run_path / "{run_path.name}_aligned.parquet")
+    df_fit_aligned.to_parquet(run_path / f"{run_path.name}_aligned.parquet")
 
 
 if __name__ == "__main__":
