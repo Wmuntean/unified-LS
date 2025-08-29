@@ -68,7 +68,7 @@ model {
 
   to_vector(zt) ~ std_normal();
   to_vector(xi) ~ std_normal();
-  log_gamma ~ normal(0, 1);
+  log_gamma ~ normal(0.5, 1);
   real gamma = exp(log_gamma);
   
   // --- Likelihood ---
