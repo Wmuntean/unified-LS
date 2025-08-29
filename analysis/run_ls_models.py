@@ -69,7 +69,7 @@ def run_stan_model(model_path: Path | str, run_name: Path | str, stan_data: dict
     fit.save_csvfiles(dir=run_path)
 
     df_fit = fit.draws_pd()
-    df_fit.to_parquet(run_path / "{run_path.name}.parquet")
+    df_fit.to_parquet(run_path / f"{run_path.name}.parquet")
 
     # Align latent space ------ START --------------------------------
     person_vars = [var for var in df_fit.columns if "xi[" in var]
