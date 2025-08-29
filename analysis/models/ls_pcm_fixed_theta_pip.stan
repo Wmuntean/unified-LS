@@ -1,7 +1,6 @@
 // -----------------------------------------------------------------------------
 // Model: Latent Space Partial Credit Model (LS-PCM) with Mixture Prior (PIP)
-// Author: [Your Name]
-// Date: [YYYY-MM-DD]
+// Author: William Muntean
 // Description:
 //   Stan implementation of the Latent Space Partial Credit Model for polytomous IRT data.
 //   - Estimates item thresholds and latent positions for persons and items.
