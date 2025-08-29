@@ -47,7 +47,7 @@ def run_stan_model(model_path: Path | str, run_name: Path | str, stan_data: dict
         stan_file=model_path, cpp_options={"STAN_THREADS": True}
     )
 
-    init_fit = model.variational(data=stan_data, algorithm="meanfield", iter=5000)
+    init_fit = model.pathfinder(data=stan_data, num_paths=4, draws=1000)
 
     inits = init_fit.create_inits()
 
@@ -140,7 +140,7 @@ if __name__ == "__main__":
     stan_model = MODEL_PATH / "ls_pcm_fixed_theta.stan"
     # run_stan_model(model_path=stan_model, run_name="ls-pcm", stan_data=stan_data)
 
-    # Run LS-LNRM ------ START --------------------------------
+    # Run LS-LNRT ------ START --------------------------------
     stan_data = {
         "N": len(df_resp),
         "n_items": df_resp["item_id"].nunique(),
@@ -151,5 +151,5 @@ if __name__ == "__main__":
         "log_rt": df_resp["log_rt"].to_numpy(),
     }
 
-    stan_model = MODEL_PATH / "ls_lnrm.stan"
-    run_stan_model(model_path=stan_model, run_name="ls-lnrm", stan_data=stan_data)
+    stan_model = MODEL_PATH / "ls_LNRT.stan"
+    run_stan_model(model_path=stan_model, run_name="ls-lnrt", stan_data=stan_data)
