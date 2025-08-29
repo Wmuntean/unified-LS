@@ -1,7 +1,6 @@
 // -----------------------------------------------------------------------------
 // Model: Latent-Space Log-Normal Response Time (LS-LNRT) Model
-// Author: [Your Name]
-// Date: [YYYY-MM-DD]
+// Author: William Muntean
 // Description:
 //   Stan implementation of a Latent-Space Log-Normal Response Time model.
 //   - Estimates person speededness (tau) and item time parameters (beta, alpha).
@@ -68,6 +67,9 @@ model {
 
   to_vector(zt) ~ std_normal();
   to_vector(xi) ~ std_normal();
+  
+  // Prior from https://doi.org/10.1007/s11336-021-09762-5
+  // Prior from https://doi.org/10.3390/jintelligence12040038
   log_gamma ~ normal(0.5, 1);
   real gamma = exp(log_gamma);
   
