@@ -4,7 +4,7 @@
 // Description:
 //   Stan implementation of a Latent-Space Zero-Inflated Negative Binomial model.
 //   - Estimates person parameters for both the count (kappa) and zero-inflation (omega) processes.
-//   - Estimates item parameters for count (b) and zero-inflation (eta).
+//   - Estimates item parameters for count (delta) and zero-inflation (lambda).
 //   - Latent space structure penalizes expected counts by person-item distance.
 //   - Suitable for use with CmdStanPy and pandas.
 //
@@ -23,8 +23,8 @@
 // Output:
 //   - kappa: Person ability for the count process
 //   - omega: Person propensity for the non-zero process
-//   - b: Item difficulty for the count process
-//   - eta: Item propensity for the zero-inflation process
+//   - delta: Item difficulty for the count process
+//   - lambda: Item propensity for the zero-inflation process
 //   - zt: Item latent positions
 //   - xi: Person latent positions
 //   - log_gamma: Latent space distance multiplier
@@ -44,15 +44,15 @@ data {
   array[N] int<lower=0> process_counts;
 }
 parameters {
+  // --- Item Parameters ---
+  vector[n_items] delta;
+  vector[n_items] lambda;
+  matrix[n_items, D] zt;
+  
   // --- Person Parameters ---
   vector[n_persons] kappa;
   vector[n_persons] omega;
   matrix[n_persons, D] xi;
-  
-  // --- Item Parameters ---
-  vector[n_items] b;
-  vector[n_items] eta;
-  matrix[n_items, D] zt;
   
   // --- Latent Space Parameters ---
   real log_gamma;
@@ -72,8 +72,8 @@ model {
   kappa ~ std_normal();
   omega ~ std_normal();
   
-  b ~ normal(0, 2);
-  eta ~ normal(0, 2);
+  delta ~ normal(0, 2);
+  lambda ~ normal(0, 2);
   
   to_vector(zt) ~ std_normal();
   to_vector(xi) ~ std_normal();
@@ -93,11 +93,11 @@ model {
     int y = process_counts[n];
     
     // --- ZINB Mixture ---
-    real logit_pi = omega[person] - eta[item];
+  real logit_pi = omega[person] - lambda[item];
     
     // Log of the expected count (mu) for the Negative Binomial
     real dist = distance(xi[person], zt_centered[item]);
-    real log_mu = (kappa[person] - gamma * dist) - b[item];
+  real log_mu = (kappa[person] - gamma * dist) - delta[item];
     
     if (y == 0) {
       target += log_sum_exp(bernoulli_logit_lpmf(0 | logit_pi),

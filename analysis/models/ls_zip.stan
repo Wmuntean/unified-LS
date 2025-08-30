@@ -4,7 +4,7 @@
 // Description:
 //   Stan implementation of a Latent-Space Zero-Inflated Poisson model.
 //   - Estimates person parameters for both the count (kappa) and zero-inflation (omega) processes.
-//   - Estimates item parameters for count (b) and zero-inflation (eta).
+//   - Estimates item parameters for count (delta) and zero-inflation (lambda).
 //   - Latent space structure penalizes expected counts by person-item distance.
 //   - Suitable for use with CmdStanPy and pandas.
 //
@@ -23,8 +23,8 @@
 // Output:
 //   - kappa: Person ability for the count process
 //   - omega: Person propensity for the non-zero process
-//   - b: Item difficulty for the count process
-//   - eta: Item propensity for the zero-inflation process
+//   - delta: Item difficulty for the count process
+//   - lambda: Item propensity for the zero-inflation process
 //   - zt: Item latent positions
 //   - xi: Person latent positions
 //   - log_gamma: Latent space distance multiplier
@@ -51,9 +51,9 @@ parameters {
   matrix[n_persons, D] xi;
   
   // --- Item Parameters ---
-  vector[n_items] item_location;
+  vector[n_items] delta;
   vector[n_items] item_intercept;
-  vector[n_items] eta;
+  vector[n_items] lambda;
   matrix[n_items, D] zt;
   
   // --- Latent Space Parameters ---
@@ -72,9 +72,9 @@ model {
   omega ~ std_normal();
   
   // Weakly informative priors for item parameters
-  item_location ~ normal(0, 1.5);
+  delta ~ normal(0, 1.5);
   item_intercept ~ normal(1, 1);
-  eta ~ normal(0, 2);
+  lambda ~ normal(0, 2);
   
   // Priors for latent space parameters
   to_vector(zt) ~ std_normal();
@@ -93,11 +93,11 @@ model {
     int y = process_counts[n];
     
     // --- ZIP Mixture ---
-    real logit_pi = omega[person] - eta[item];
+  real logit_pi = omega[person] - lambda[item];
     
     // Ideal Point Poisson
     real dist = distance(xi[person], zt_centered[item]);
-    real quadratic_dist = pow(kappa[person] - item_location[item], 2);
+  real quadratic_dist = pow(kappa[person] - delta[item], 2);
     
     // The expected log-count is the item's max, penalized by both the 
     // ideal point distance and the security latent space distance.
