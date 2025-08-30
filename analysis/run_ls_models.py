@@ -155,3 +155,26 @@ if __name__ == "__main__":
 
     stan_model = MODEL_PATH / "ls_lnrt.stan"
     run_stan_model(model_path=stan_model, run_name="ls-lnrt", stan_data=stan_data)
+
+    # Run LS-ZINB ------ START --------------------------------
+    df_resp["min_resp_int"] = df_resp.groupby("item_id")[
+        "response_selections"
+    ].transform(min)
+    df_resp["process_counts"] = (
+        df_resp["exhibit_interactions"]
+        + df_resp["response_selections"]
+        - df_resp["min_resp_int"]
+    )
+
+    stan_data = {
+        "N": len(df_resp),
+        "n_items": df_resp["item_id"].nunique(),
+        "n_persons": df_resp["person_id"].nunique(),
+        "D": 2,
+        "item_id": df_resp["item_id"].to_numpy(),
+        "person_id": df_resp["person_id"].to_numpy(),
+        "process_counts": df_resp["process_counts"].to_numpy(),
+    }
+
+    stan_model = MODEL_PATH / "ls_zinb.stan"
+    run_stan_model(model_path=stan_model, run_name="ls-zinb", stan_data=stan_data)

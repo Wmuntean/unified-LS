@@ -1,8 +1,8 @@
 // -----------------------------------------------------------------------------
-// Model: Latent-Space Zero-Inflated Negative Binomial (LS-ZINB) Model
+// Model: Latent-Space Zero-Inflated Poisson (LS-ZIP) Model
 // Author: William Muntean
 // Description:
-//   Stan implementation of a Latent-Space Zero-Inflated Negative Binomial model.
+//   Stan implementation of a Latent-Space Zero-Inflated Poisson model.
 //   - Estimates person parameters for both the count (kappa) and zero-inflation (omega) processes.
 //   - Estimates item parameters for count (b) and zero-inflation (eta).
 //   - Latent space structure penalizes expected counts by person-item distance.
@@ -28,8 +28,9 @@
 //   - zt: Item latent positions
 //   - xi: Person latent positions
 //   - log_gamma: Latent space distance multiplier
-//   - phi: Negative binomial dispersion parameter
 // -----------------------------------------------------------------------------
+// Stan Model for a Latent-Space Zero-Inflated Poisson (LS-ZIP) Ideal Point Model
+// This baseline version uses a single gamma parameter.
 
 data {
   // --- Dimensions & Indices ---
@@ -50,15 +51,13 @@ parameters {
   matrix[n_persons, D] xi;
   
   // --- Item Parameters ---
-  vector[n_items] b;
+  vector[n_items] item_location;
+  vector[n_items] item_intercept;
   vector[n_items] eta;
   matrix[n_items, D] zt;
   
   // --- Latent Space Parameters ---
   real log_gamma;
-  
-  // --- Negative Binomial Dispersion ---
-  real<lower=0> phi;
 }
 transformed parameters {
   // --- Centered Item Positions for Identifiability ---
@@ -72,17 +71,18 @@ model {
   kappa ~ std_normal();
   omega ~ std_normal();
   
-  b ~ normal(0, 2);
+  // Weakly informative priors for item parameters
+  item_location ~ normal(0, 1.5);
+  item_intercept ~ normal(1, 1);
   eta ~ normal(0, 2);
   
+  // Priors for latent space parameters
   to_vector(zt) ~ std_normal();
   to_vector(xi) ~ std_normal();
   
   // Prior from https://doi.org/10.1007/s11336-021-09762-5
   // Prior from https://doi.org/10.3390/jintelligence12040038
   log_gamma ~ normal(0.5, 1);
-  
-  phi ~ cauchy(0, 2);
   
   // --- Likelihood ---
   real gamma = exp(log_gamma);
@@ -92,20 +92,24 @@ model {
     int person = person_id[n];
     int y = process_counts[n];
     
-    // --- ZINB Mixture ---
+    // --- ZIP Mixture ---
     real logit_pi = omega[person] - eta[item];
     
-    // Log of the expected count (mu) for the Negative Binomial
+    // Ideal Point Poisson
     real dist = distance(xi[person], zt_centered[item]);
-    real log_mu = (kappa[person] - gamma * dist) - b[item];
+    real quadratic_dist = pow(kappa[person] - item_location[item], 2);
+    
+    // The expected log-count is the item's max, penalized by both the 
+    // ideal point distance and the security latent space distance.
+    real log_mu = item_intercept[item] - quadratic_dist - gamma * dist;
     
     if (y == 0) {
       target += log_sum_exp(bernoulli_logit_lpmf(0 | logit_pi),
                             bernoulli_logit_lpmf(1 | logit_pi)
-                            + neg_binomial_2_log_lpmf(0 | log_mu, phi));
+                            + poisson_log_lpmf(0 | log_mu));
     } else {
       target += bernoulli_logit_lpmf(1 | logit_pi)
-                + neg_binomial_2_log_lpmf(y | log_mu, phi);
+                + poisson_log_lpmf(y | log_mu);
     }
   }
 }
