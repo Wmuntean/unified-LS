@@ -90,6 +90,7 @@ parameters {
   real<lower=0> phi;
 }
 transformed parameters {
+  vector[n_items] alpha = exp(log_alpha);
   // --- Centered Item Positions for Identifiability ---
   // This block centers the item latent space on the origin to prevent
   // the entire coordinate system from drifting during sampling (translation invariance).
@@ -103,7 +104,6 @@ model {
   threshold ~ normal(0, 2);
   beta ~ normal(0, 2);
   log_alpha ~ normal(0, 1);
-  vector[n_items] alpha = exp(log_alpha);
   delta ~ normal(0, 2);
   lambda ~ normal(0, 2);
   kappa ~ std_normal();
