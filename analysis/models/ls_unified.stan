@@ -142,7 +142,7 @@ model {
     target += eta[score] - log_sum_exp(head(eta, n_cats));
     
     // --- LNRT Likelihood ---
-    real mu = beta[item] - tau[n] + gamma * dist;
+    real mu = beta[item] - tau[person] + gamma * dist;
     real sigma = 1 / alpha[item];
     log_rt[n] ~ normal(mu, sigma);
     
