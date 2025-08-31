@@ -91,6 +91,7 @@ parameters {
 }
 transformed parameters {
   vector[n_items] alpha = exp(log_alpha);
+  vector[3] gamma = exp(log_gamma); // [PCM, LNRT, ZINB]
   // --- Centered Item Positions for Identifiability ---
   // This block centers the item latent space on the origin to prevent
   // the entire coordinate system from drifting during sampling (translation invariance).
@@ -116,7 +117,6 @@ model {
   // Prior from https://doi.org/10.1007/s11336-021-09762-5
   // Prior from https://doi.org/10.3390/jintelligence12040038
   log_gamma ~ normal(0.5, 1);
-  vector[3] gamma = exp(log_gamma); // [PCM, LNRT, ZINB]
   
   phi ~ cauchy(0, 2);
   
