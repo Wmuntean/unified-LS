@@ -1,19 +1,22 @@
 // -----------------------------------------------------------------------------
-// Model: Latent Space Partial Credit Model (LS-PCM) with Fixed Theta
+// -----------------------------------------------------------------------------
+// Model: Latent Space Unified Model (LS-Unified)
 // Author: William Muntean
 // Description:
-//   Stan implementation of the Latent Space Partial Credit Model for polytomous IRT data.
-//   - Estimates item thresholds and latent positions for persons and items.
-//   - Person abilities (theta) are fixed and provided as data.
-//   - Latent space structure penalizes effective theta by person-item distance.
-//   - Suitable for use with CmdStanPy and pandas.
+//   Stan implementation of the LS-Unified model, which integrates three psychometric models:
+//     - Partial Credit Model (PCM) for polytomous item response data
+//     - Log-Normal Response Time (LNRT) model for response time data
+//     - Zero-Inflated Negative Binomial (ZINB) model for count data (e.g., answer changes)
+//   All three components share a common latent space structure and a single gamma parameter that modulates the effect of person-item distance across all submodels.
+//   Person abilities (theta) are fixed and provided as data.
+//   Suitable for use with CmdStanPy and pandas.
 //
 // Inputs:
 //   --- Dimensions & Indices ---
 //   - N: Number of observations
 //   - n_items: Number of unique items
 //   - n_persons: Number of unique persons
-//   - D: Number of latent dimensions
+//   - D: Number of latent dimensions for the latent space
 //
 //   --- Data & Indices ---
 //   - item_id: Item index for each response (1-based)
@@ -24,12 +27,27 @@
 //   - threshold_start: Starting index for each item's thresholds in the threshold vector
 //   - total_thresholds: Total number of thresholds across all items
 //   - max_categories: Maximum number of categories for any item
+//   - log_rt: Log-transformed response time for each response
+//   - process_counts: Observed count data for each response (e.g., answer changes)
 //
-// Output:
-//   - threshold: Estimated item thresholds
+// Output Parameters:
+//   - threshold: Estimated item thresholds (PCM)
+//   - delta: Item parameter for ZINB (difficulty)
+//   - lambda: Item parameter for ZINB (zero-inflation)
+//   - beta: Item parameter for LNRT (location)
+//   - log_alpha: Item parameter for LNRT (log-precision)
 //   - zt: Item latent positions
 //   - xi: Person latent positions
-//   - log_gamma: Latent space distance multiplier
+//   - kappa, omega, tau: Person parameters for ZINB and LNRT
+//   - log_gamma: Latent space distance multiplier (shared across all submodels)
+//   - phi: Negative binomial dispersion parameter (ZINB)
+//
+// Model Structure:
+//   - Latent space coordinates for persons (xi) and items (zt) are estimated.
+//   - The effect of person-item distance in the latent space is penalized by gamma and incorporated into all three submodels.
+//   - PCM: Models polytomous item scores with thresholds and effective theta penalized by distance.
+//   - LNRT: Models log-response times as a function of item and person parameters and latent space distance.
+//   - ZINB: Models count data with zero-inflation and negative binomial likelihood, both modulated by latent space distance.
 // -----------------------------------------------------------------------------
 data {
   // --- Dimensions & Indices ---
@@ -47,14 +65,13 @@ data {
   array[n_items] int<lower=1> threshold_start;
   int<lower=1> total_thresholds;
   int<lower=2> max_categories;
-  array[N] real tau;
   vector[N] log_rt;
   array[N] int<lower=0> process_counts;
 }
 parameters {
   // --- Item Parameters ---
   vector[total_thresholds] threshold;
-  vector[n_items - 1] beta_raw;
+  vector[n_items] beta;
   vector[n_items] log_alpha;
   vector[n_items] delta;
   vector[n_items] lambda;
@@ -63,6 +80,7 @@ parameters {
   // --- Person Parameters ---
   vector[n_persons] kappa;
   vector[n_persons] omega;
+  vector[n_persons] tau;
   matrix[n_persons, D] xi;
   
   // --- Latent Space Parameters ---
@@ -81,18 +99,16 @@ transformed parameters {
   }
 }
 model {
-  // Sum-to-zero constraints on LNRT Item parameters
-  vector[n_items] beta;
-  beta[1 : (n_items - 1)] = beta_raw;
-  beta[n_items] = -sum(beta_raw);
-  
   // --- Priors ---
   threshold ~ normal(0, 2);
-  beta_raw ~ normal(0, 2);
+  beta ~ normal(0, 2);
   log_alpha ~ normal(0, 1);
   vector[n_items] alpha = exp(log_alpha);
   delta ~ normal(0, 2);
   lambda ~ normal(0, 2);
+  kappa ~ std_normal();
+  omega ~ std_normal();
+  tau ~ std_normal();
   
   to_vector(zt) ~ std_normal();
   to_vector(xi) ~ std_normal();
