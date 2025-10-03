@@ -34,7 +34,7 @@ import pandas as pd
 import yaml
 
 ROOT_PATH = (
-    Path("__file__").resolve().parents[1]
+    Path("__file__").resolve().parents[0]
 )  # 0 for .py or unsaved notebooks and 1 for .ipynb
 sys.path.append(ROOT_PATH.as_posix())
 
