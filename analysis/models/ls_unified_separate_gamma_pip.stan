@@ -40,6 +40,7 @@
 //   - xi: Person latent positions
 //   - kappa, omega, tau: Person parameters for ZINB and LNRT
 //   - log_gamma: Latent space distance multiplier (shared across all submodels)
+//   - pip: Posterior inclusion probability for gamma (mixture prior)
 //   - phi: Negative binomial dispersion parameter (ZINB)
 //
 // Model Structure:
