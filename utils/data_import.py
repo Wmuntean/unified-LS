@@ -34,7 +34,7 @@ import pandas as pd
 import yaml
 
 ROOT_PATH = (
-    Path("__file__").resolve().parents[1]
+    Path("__file__").resolve().parents[0]
 )  # 0 for .py or unsaved notebooks and 1 for .ipynb
 sys.path.append(ROOT_PATH.as_posix())
 
@@ -45,7 +45,9 @@ Process Data Import Module
 =======================================================
 
 This module provides functionality to parse and process item-level
-interaction data from XML files and zipped archives.
+interaction data from XML files and zipped archives, clean parsed data,
+and collapse item scores into no more than three categories with roughly
+equal observation counts per category.
 
 Data Processing Workflow
 ========================
@@ -61,17 +63,21 @@ The process is performed in the following stages:
 3. **Batch Processing**:
    - Processes multiple zipped XML files and concatenates results.
 
+4. **Score Collapsing**:
+   - Collapses item scores into no more than three categories per item,
+     using quantile binning if more than three unique scores exist.
+
 Final DataFrame Variables
 =========================
 The final DataFrame produced by this module contains the following columns:
 
-    - ``person_id``: 0-indexed person identifier.
-    - ``item_id``: 0-indexed item identifier.
-    - ``itemset_id``: 0-indexed item set identifier.
+    - ``person_id``: 1-indexed person identifier.
+    - ``item_id``: 1-indexed item identifier.
+    - ``itemset_id``: 1-indexed item set identifier.
     - ``rt``: Response time (seconds) for each item.
     - ``op_theta``: Operational theta (ability estimate).
     - ``item_type``: Item type label.
-    - ``score``: Item score (integer).
+    - ``score``: Item score (integer, collapsed if needed).
     - ``total_interactions``: Number of interactions per item.
     - ``exhibit_interactions``: Number of exhibit interactions per item.
     - ``has_exhibit``: Boolean, whether item has exhibit.
@@ -84,7 +90,9 @@ The final DataFrame produced by this module contains the following columns:
     - Research analysis requires these variables. To use this analysis
       with your own data, ensure your dataset contains these columns
       (with compatible definitions).
-
+    - The score collapsing function only modifies scores for items with
+      more than three unique score points. For demonstration purposes
+      only; simplifies analyses.
 
 .. currentmodule:: data_import
 
@@ -99,11 +107,13 @@ Functions
     parse_process_data
     clean_parsed_data
     batch_process_zip
+    collapse_scores_equal_freq
 
 Standalone Execution
 =====================
-When run as a standalone script, this module processes interaction data
-and outputs the results to parquet format.
+When run as a standalone script, this module processes interaction data,
+cleans and merges response data, collapses scores, and outputs the results
+to parquet format.
 
 - Output Files:
     - ``COTS_2025_data.parquet``
@@ -330,6 +340,42 @@ def batch_process_zip(process_path: Path) -> pd.DataFrame:
         return pd.DataFrame()
 
 
+def collapse_scores_equal_freq(
+    df: pd.DataFrame, item_col: str = "item_id", score_col: str = "score"
+) -> pd.DataFrame:
+    """
+    Collapse score points for each item into no more than 3 categories
+    with roughly equal observation counts per category.
+
+    Parameters
+    ----------
+    df : pd.DataFrame
+        Input DataFrame containing ``item_id`` and ``score`` columns.
+    item_col : str, optional
+        Name of the item column. Default is ``item_id``.
+    score_col : str, optional
+        Name of the score column. Default is ``score``.
+
+    Returns
+    -------
+    pd.DataFrame
+        DataFrame with collapsed score (0, 1, or 2) replacing score_col name.
+    """
+    df = df.copy()
+
+    def bin_scores(s: pd.Series) -> pd.Series:
+        if s.nunique() <= 3:
+            # Already 3 or fewer unique scores, keep as is
+            return s
+        try:
+            return pd.qcut(s, q=3, labels=False, duplicates="drop")
+        except ValueError:
+            return s
+
+    df[score_col] = df.groupby(item_col)[score_col].transform(bin_scores)
+    return df
+
+
 if __name__ == "__main__":
     import sys
 
@@ -379,12 +425,6 @@ if __name__ == "__main__":
         how="inner",
     )
 
-    df["person_id"] = pd.factorize(df["person_id"])[0]
-    df["item_id"] = pd.factorize(df["item_id"])[0]
-    df["itemset_id"] = pd.factorize(df["itemset_id"])[0]
-    df["itemset_id"] = df["itemset_id"].replace(-1, pd.NA)
-    df["score"] = df["score"].astype(int)
-
     # Clean process data error
     mean_exhibit_interactions = df.groupby("item_id")["exhibit_interactions"].transform(
         "mean"
@@ -392,5 +432,13 @@ if __name__ == "__main__":
     mask = mean_exhibit_interactions > 0.009
     df.loc[mask, "has_exhibit"] = True
     df.loc[~mask, "exhibit_interactions"] = 0
+    df["score"] = df["score"].astype(int)
+    df = collapse_scores_equal_freq(df)
+    df = df[df["item_type"] != "Drop_Cloze"]
+
+    df["person_id"] = pd.factorize(df["person_id"])[0] + 1
+    df["item_id"] = pd.factorize(df["item_id"])[0] + 1
+    df["itemset_id"] = pd.factorize(df["itemset_id"])[0] + 1
+    df["itemset_id"] = df["itemset_id"].replace(-1, pd.NA)
 
     df.to_parquet(DATA_PATH / "COTS_2025_data.parquet")
