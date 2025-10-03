@@ -192,3 +192,53 @@ if __name__ == "__main__":
 
     stan_model = MODEL_PATH / "ls_zip.stan"
     run_stan_model(model_path=stan_model, run_name="ls-zip", stan_data=stan_data)
+
+    # Run Unified-LS-Separate-Gamma ------ START --------------------------------
+    stan_data = {
+        "N": len(df_resp),
+        "item_id": df_resp["item_id"].to_numpy(),
+        "person_id": df_resp["person_id"].to_numpy(),
+        "theta": df_resp["op_theta"].to_numpy(),
+        "scores": (df_resp["score"] + 1).to_numpy(),
+        "categories_per_item": (df_resp["max_score"] + 1).to_numpy(),
+        "n_items": df_resp["item_id"].nunique(),
+        "threshold_start": threshold_start,
+        "total_thresholds": total_thresholds,
+        "max_categories": df_resp["max_score"].max() + 1,
+        "n_persons": df_resp["person_id"].nunique(),
+        "D": 2,
+        "process_counts": df_resp["process_counts"].to_numpy(),
+        "log_rt": df_resp["log_rt"].to_numpy(),
+    }
+
+    stan_model = MODEL_PATH / "ls_unified_separate_gamma_pip.stan"
+    run_stan_model(
+        model_path=stan_model,
+        run_name="ls-unified_separate_gamma_pip",
+        stan_data=stan_data,
+    )
+
+    # Run Unified-LS ------ START --------------------------------
+    stan_data = {
+        "N": len(df_resp),
+        "item_id": df_resp["item_id"].to_numpy(),
+        "person_id": df_resp["person_id"].to_numpy(),
+        "theta": df_resp["op_theta"].to_numpy(),
+        "scores": (df_resp["score"] + 1).to_numpy(),
+        "categories_per_item": (df_resp["max_score"] + 1).to_numpy(),
+        "n_items": df_resp["item_id"].nunique(),
+        "threshold_start": threshold_start,
+        "total_thresholds": total_thresholds,
+        "max_categories": df_resp["max_score"].max() + 1,
+        "n_persons": df_resp["person_id"].nunique(),
+        "D": 2,
+        "process_counts": df_resp["process_counts"].to_numpy(),
+        "log_rt": df_resp["log_rt"].to_numpy(),
+    }
+
+    stan_model = MODEL_PATH / "ls_unified_pip.stan"
+    run_stan_model(
+        model_path=stan_model,
+        run_name="ls-unified_pip",
+        stan_data=stan_data,
+    )
