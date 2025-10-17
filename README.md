@@ -1,4 +1,4 @@
-# unified-LS <!-- omit in toc -->
+# Unified Latent Space <!-- omit in toc -->
 
 ## Documentation
 - API documentation is available at https://Wmuntean.github.io/unified_ls/

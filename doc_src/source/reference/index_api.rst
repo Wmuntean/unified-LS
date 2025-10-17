@@ -20,6 +20,7 @@ Documentation for all the main modules and functions of the unified_ls package.
 .. toctree::
    :maxdepth: 2
    :hidden:
+   :titlesonly:
 
    data_import
    display_name_of_module <example_analysis>
