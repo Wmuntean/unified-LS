@@ -181,3 +181,4 @@ config.yaml
 *.exe
 *.dll
 *_scratch*
+*_notebooks/

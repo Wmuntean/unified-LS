@@ -7,6 +7,28 @@ from pathlib import Path
 _copied_targets = []
 
 
+def _needs_update(src: Path, dst: Path) -> bool:
+    """
+    Check if destination needs to be updated based on source modification time.
+
+    Returns True if:
+    - Destination doesn't exist
+    - Source is newer than destination
+    - Directory structure has changed
+    """
+    if not dst.exists():
+        return True
+
+    # For directories, check if any file in source is newer than destination
+    if src.is_dir():
+        src_mtime = max(f.stat().st_mtime for f in src.rglob("*") if f.is_file())
+        dst_mtime = max(f.stat().st_mtime for f in dst.rglob("*") if f.is_file())
+        return src_mtime > dst_mtime
+
+    # For files, compare modification times
+    return src.stat().st_mtime > dst.stat().st_mtime
+
+
 def copy_collections(
     collections: dict, source_base: Path, target_base: Path, verbose: bool = False
 ) -> None:
@@ -15,7 +37,7 @@ def copy_collections(
 
     This function iterates through the provided ``collections`` dictionary, copying folders from the specified
     ``source_base`` to the ``target_base`` according to each collection's configuration. If the target directory
-    already exists, it will be removed before copying.
+    already exists and is up-to-date, copying is skipped.
 
     Parameters
     ----------
@@ -28,6 +50,8 @@ def copy_collections(
         Base directory for the source paths.
     target_base : Path
         Base directory for the target paths.
+    verbose : bool, optional
+        Print verbose output.
 
     Returns
     -------
@@ -35,11 +59,11 @@ def copy_collections(
         This function does not return a value.
 
     .. Note::
-        - If the target directory exists, it will be deleted before copying.
+        - If the target directory exists and is up-to-date, copying is skipped.
         - The ``ignore`` patterns use the same syntax as ``shutil.ignore_patterns``.
 
     .. Warning::
-        Use with caution: all contents of the target directory will be removed prior to copying.
+        Use with caution: all contents of the target directory will be removed prior to copying if update is needed.
 
     Examples
     --------
@@ -60,6 +84,14 @@ def copy_collections(
         dst = target_base / cfg["target"]
         ignore_patterns = shutil.ignore_patterns(*cfg.get("ignore", []))
 
+        # Check if update is needed
+        if not _needs_update(src, dst):
+            if verbose:
+                print(f"[copy_collections] Up-to-date, skipping: {dst}")
+            _copied_targets.append(dst)
+            continue
+
+        # Remove existing and copy
         if dst.exists():
             shutil.rmtree(dst)
             if verbose:

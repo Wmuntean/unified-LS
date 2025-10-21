@@ -64,4 +64,3 @@ Unified Latent Space
    self
    Documentation <index_documentation>
    API Reference <reference/index_api>
-   

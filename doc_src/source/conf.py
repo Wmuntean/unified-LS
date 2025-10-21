@@ -83,7 +83,7 @@ html_theme_options = {
     "collapse_navigation": True,
     "secondary_sidebar_items": {
         "**": ["page-toc"],
-        "notebooks/*": [],
+        "_notebooks/*": [],
     },
 }
 html_sidebars = {
@@ -92,11 +92,11 @@ html_sidebars = {
 
 # Define the relative collection paths
 collections_config = {
-    # "notebooks": {
-    #     "source": f"{project}/notebooks",  # analysis, exploritory, etc
-    #     "target": "notebooks",
-    #     "ignore": ["*.py", "__pycache__"],
-    # },
+    "notebooks": {
+        "source": "analysis",  # analysis, exploritory, etc
+        "target": "_notebooks",
+        "ignore": ["*.py", "__pycache__"],
+    },
     # "assets": {
     #     "source": "assets",
     #     "target": "_static",
@@ -120,5 +120,5 @@ def on_build_finished(app, exception):
 
 
 # Register the callback with Sphinx
-def setup(app):
-    app.connect("build-finished", on_build_finished)
+# def setup(app):
+#     app.connect("build-finished", on_build_finished)

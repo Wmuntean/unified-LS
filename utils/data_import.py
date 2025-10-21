@@ -301,7 +301,7 @@ def clean_parsed_data(parsed_data):
 def batch_process_zip(process_path: Path) -> pd.DataFrame:
     """
     Unzips each file matching ``*.zip`` in ``process_path`` and processes
-    the ``3.exam.interaction.xml`` file inside.
+    the xml file inside.
 
     Parameters
     ----------
