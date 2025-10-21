@@ -43,8 +43,9 @@ reqs:
 
 # Ignores copied folders to avoid infinite loops
 livehtml:
-	sphinx-autobuild "$(SOURCEDIR)" "$(BUILDDIR)" \
-		--ignore "*/_assets/*" \
-		--ignore "*/_notebooks/*" \
-		--ignore "*/_static/*" \
-		$(SPHINXOPTS) $(O)
+# 	sphinx-autobuild "$(SOURCEDIR)" "$(BUILDDIR)" \
+# 		--ignore "*/_assets/*" \
+# 		--ignore "*/_notebooks/*" \
+# 		--ignore "*/_static/*" \
+# 		$(SPHINXOPTS) $(O)
+	sphinx-autobuild "$(SOURCEDIR)" "$(BUILDDIR)" $(SPHINXOPTS) $(O)

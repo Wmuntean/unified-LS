@@ -105,12 +105,12 @@ collections_config = {
 }
 
 # Copy everything before Sphinx build
-copy_collections(
-    collections_config,
-    source_base=repo_root,
-    target_base=sphinx_source,
-    verbose=True,
-)
+# copy_collections(
+#     collections_config,
+#     source_base=repo_root,
+#     target_base=sphinx_source,
+#     verbose=True,
+# )
 
 
 # Set callback
@@ -120,5 +120,5 @@ def on_build_finished(app, exception):
 
 
 # Register the callback with Sphinx
-# def setup(app):
-#     app.connect("build-finished", on_build_finished)
+def setup(app):
+    app.connect("build-finished", on_build_finished)
