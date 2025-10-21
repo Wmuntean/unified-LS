@@ -5,37 +5,33 @@
 Unified Latent Space
 ====================
 
-.. grid:: 2 2 2 2
-   :gutter: 3
+.. grid:: 4
+   :gutter: 2
+   :margin: 4
 
-   .. grid-item-card:: Presentation
-      :link: https://example.com/presentation
+   .. grid-item-card::
+      :link: _static/Unified-LS-2025-1006.pdf
+      :link-type: url
       :img-top: _static/presentation.png
       :img-alt: Presentation Slides
 
-      Project presentation slides
-
-   .. grid-item-card:: Documentation
+   .. grid-item-card::
       :link: index_documentation
       :link-type: doc
-      :img-top: _static/presentation.png
+      :img-top: _static/api.png
       :img-alt: GitHub Documentation
 
-      GitHub documentation
 
-   .. grid-item-card:: Repository
+   .. grid-item-card::
       :link: https://github.com/Wmuntean/unified-LS
-      :img-top: _static/presentation.png
+      :link-type: url
+      :img-top: _static/github.png
       :img-alt: GitHub Repository
 
-      GitHub repository
+   .. grid-item-card::
+      :img-top: _static/document.png
+      :img-alt: Preprint
 
-   .. grid-item-card:: Preprint
-      :link: https://arxiv.org/abs/xxxx.xxxxx
-      :img-top: _static/presentation.png
-      :img-alt: arXiv Preprint
-
-      arXiv preprint
 
 .. toctree::
    :maxdepth: 1

@@ -92,25 +92,25 @@ html_sidebars = {
 
 # Define the relative collection paths
 collections_config = {
-    "notebooks": {
-        "source": f"{project}/notebooks",  # analysis, exploritory, etc
-        "target": "notebooks",
-        "ignore": ["*.py", "__pycache__"],
-    },
-    "assets": {
-        "source": "assets",
-        "target": "assets",
-        "ignore": ["*.gitkeep"],
-    },
+    # "notebooks": {
+    #     "source": f"{project}/notebooks",  # analysis, exploritory, etc
+    #     "target": "notebooks",
+    #     "ignore": ["*.py", "__pycache__"],
+    # },
+    # "assets": {
+    #     "source": "assets",
+    #     "target": "_static",
+    #     "ignore": ["*.gitkeep"],
+    # },
 }
 
 # Copy everything before Sphinx build
-# copy_collections(
-#     collections_config,
-#     source_base=repo_root,
-#     target_base=sphinx_source,
-#     verbose=True,
-# )
+copy_collections(
+    collections_config,
+    source_base=repo_root,
+    target_base=sphinx_source,
+    verbose=True,
+)
 
 
 # Set callback
