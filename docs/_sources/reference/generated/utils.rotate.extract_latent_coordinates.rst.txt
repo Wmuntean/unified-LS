@@ -1,0 +1,4 @@
+﻿extract\_latent\_coordinates
+============================
+
+.. autofunction:: utils.rotate.extract_latent_coordinates

@@ -1,0 +1,4 @@
+﻿parse\_process\_data
+====================
+
+.. autofunction:: utils.data_import.parse_process_data
