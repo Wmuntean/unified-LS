@@ -11,7 +11,9 @@ license = "GPL-3.0-or-later"
 readme = "README.md"
 requires-python = ">=3.12,<4.0"
 classifiers = ["Intended Audience :: Science/Research"]
-[project.optional-dependencies]
+dependencies = ["PyYAML~=6.0", "cmdstanpy~=1.2", "matplotlib~=3.9", "numpy~=2.2", "pandas~=2.2", "questionary~=2.1", "scipy~=1.15", "seaborn~=0.13", "tomlkit~=0.13"]
+
+[dependency-groups]
 dev = [
     "poetry>=2.1.2",
     "poetry-plugin-export>=1.9.0",
@@ -27,7 +29,8 @@ dev = [
     "myst-parser>=4.0.1",
     "nbsphinx>=0.9.7",
     "pydata-sphinx-theme>=0.16.1",
-    "sphinx-autobuild"
+    "sphinx-autobuild",
+    "sphinx-design"
 ]
 
 [project.urls]

@@ -1,0 +1,4 @@
+﻿run\_stan\_model
+================
+
+.. autofunction:: analysis.run_ls_models.run_stan_model

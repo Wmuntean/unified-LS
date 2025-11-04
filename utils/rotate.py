@@ -16,7 +16,56 @@
 # ====================================================================
 
 """
-Utility functions to align latent space dimensions across multiple chains. Uses Procrustes rotation.
+=======================================================
+Latent Space Alignment Utilities
+=======================================================
+
+This module provides utility functions for aligning latent space coordinates
+across multiple MCMC chains in latent space IRT models. The main functionality
+is based on Procrustes rotation, enabling consistent interpretation of latent
+dimensions across chains and facilitating downstream analysis and visualization.
+
+Latent Space Alignment Process
+==============================
+
+The alignment process is performed in the following stages:
+
+1. **Extraction**:
+
+   - Extract latent coordinates for persons and items from Stan draws by chain.
+
+2. **Alignment**:
+
+   - Align latent spaces across chains using Procrustes analysis, referencing a
+     selected chain for consistent orientation.
+
+3. **Replacement**:
+
+   - Replace original latent coordinates in Stan draws with aligned coordinates,
+     preserving all other parameters and metadata.
+
+.. Note::
+    - All alignment is performed in-place on copies of the original draws.
+    - Functions assume Stan output format with ``chain__`` column and parameter
+      names in ``prefix[i,d]`` format.
+
+.. Important::
+    - Reference chain selection impacts orientation; use the default (chain 1)
+      unless specific justification exists.
+
+.. currentmodule:: utils.rotate
+
+Functions
+=========
+
+.. autosummary::
+    :toctree: generated/
+    :nosignatures:
+    :template: function_name_only.rst
+
+    extract_latent_coordinates
+    align_latent_spaces
+    create_aligned_draws_dataframe
 """
 
 __author__ = "William Muntean"
@@ -39,7 +88,7 @@ def extract_latent_coordinates(
     Parameters
     ----------
     df_draws : pd.DataFrame
-        DataFrame containing Stan draws with chain__ column.
+        DataFrame containing Stan draws with ``chain__`` column.
     n_entities : int
         Number of entities (persons or items).
     D : int

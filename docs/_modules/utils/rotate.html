@@ -1,0 +1,685 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>utils.rotate &#8212; unified_ls 0.0.1 documentation</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  <!--
+    this give us a css class that will be invisible only if js is disabled
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
+
+    </style>
+  </noscript>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../../_static/styles/theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+<link href="../../_static/styles/pydata-sphinx-theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=8f2a1f02" />
+    <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sphinx-design.min.css?v=95c83b7e" />
+    <link rel="stylesheet" type="text/css" href="../../_static/wordwrap.css?v=c9d0a6ec" />
+    <link rel="stylesheet" type="text/css" href="../../_static/center_title.css?v=61298a61" />
+  
+  <!-- So that users can add custom icons -->
+  <script src="../../_static/scripts/fontawesome.js?digest=8878045cc6db502f8baf"></script>
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
+<link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
+
+    <script src="../../_static/documentation_options.js?v=d45e8c67"></script>
+    <script src="../../_static/doctools.js?v=9bcbadda"></script>
+    <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../../_static/copybutton.js?v=f281be69"></script>
+    <script src="../../_static/design-tabs.js?v=f930bc37"></script>
+    <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = '_modules/utils/rotate';</script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  <meta name="docsearch:version" content="0.0.1" />
+    <meta name="docbuild:last-update" content="Oct 21, 2025"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <dialog id="pst-search-dialog">
+    
+<form class="bd-search d-flex align-items-center"
+      action="../../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         placeholder="Search the docs ..."
+         aria-label="Search the docs ..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form>
+  </dialog>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+<div class="bd-header__inner bd-page-width">
+  <button class="pst-navbar-icon sidebar-toggle primary-toggle" aria-label="Site navigation">
+    <span class="fa-solid fa-bars"></span>
+  </button>
+  
+  
+  <div class="col-lg-3 navbar-header-items__start">
+    
+      <div class="navbar-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../../index.html">
+  
+  
+  
+  
+  
+  
+    <p class="title logo__title">unified_ls</p>
+  
+</a></div>
+    
+      <div class="navbar-item"><!-- This will display the version of the docs -->
+0.0.1
+<!-- Release 0.0.1 --></div>
+    
+  </div>
+  
+  <div class="col-lg-9 navbar-header-items">
+    
+    <div class="me-auto navbar-header-items__center">
+      
+        <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../index.html">
+    Unified Latent Space
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../index_documentation.html">
+    Documentation
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../reference/index_api.html">
+    API Reference
+  </a>
+</li>
+
+  </ul>
+</nav></div>
+      
+    </div>
+    
+    
+    <div class="navbar-header-items__end">
+      
+      
+        <div class="navbar-item">
+<form class="bd-search d-flex align-items-center"
+      action="../../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         placeholder="Search the docs ..."
+         aria-label="Search the docs ..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+      
+        <div class="navbar-item">
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button></div>
+      
+        <div class="navbar-item"><ul class="navbar-icon-links"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/Wmuntean/unified-LS.git" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-square-github fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">GitHub</span></a>
+        </li>
+</ul></div>
+      
+    </div>
+    
+  </div>
+  
+  
+
+  
+</div>
+
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+        
+      
+      <dialog id="pst-primary-sidebar-modal"></dialog>
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar hide-on-wide">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+      <div class="sidebar-header-items__center">
+        
+          
+          
+            <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../index.html">
+    Unified Latent Space
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../index_documentation.html">
+    Documentation
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../reference/index_api.html">
+    API Reference
+  </a>
+</li>
+
+  </ul>
+</nav></div>
+          
+        
+      </div>
+    
+    
+    
+      <div class="sidebar-header-items__end">
+        
+          <div class="navbar-item">
+<form class="bd-search d-flex align-items-center"
+      action="../../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         placeholder="Search the docs ..."
+         aria-label="Search the docs ..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+        
+          <div class="navbar-item">
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button></div>
+        
+          <div class="navbar-item"><ul class="navbar-icon-links"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/Wmuntean/unified-LS.git" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-square-github fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">GitHub</span></a>
+        </li>
+</ul></div>
+        
+      </div>
+    
+  </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+      <div class="sidebar-primary-item">
+<div id="ethical-ad-placement"
+      class="flat"
+      data-ea-publisher="readthedocs"
+      data-ea-type="readthedocs-sidebar"
+      data-ea-manual="true">
+</div></div>
+  </div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item">
+
+<nav aria-label="Breadcrumb" class="d-print-none">
+  <ul class="bd-breadcrumbs">
+    
+    <li class="breadcrumb-item breadcrumb-home">
+      <a href="../../index.html" class="nav-link" aria-label="Home">
+        <i class="fa-solid fa-home"></i>
+      </a>
+    </li>
+    
+    <li class="breadcrumb-item"><a href="../index.html" class="nav-link">Module code</a></li>
+    
+    <li class="breadcrumb-item active" aria-current="page"><span class="ellipsis">utils.rotate</span></li>
+  </ul>
+</nav>
+</div>
+      
+    </div>
+  
+  
+</div>
+</div>
+              
+              
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <h1>Source code for utils.rotate</h1><div class="highlight"><pre>
+<span></span><span class="c1"># ====================================================================</span>
+<span class="c1"># Author: William Muntean</span>
+<span class="c1"># Copyright (C) 2025 William Muntean. All rights reserved.</span>
+<span class="c1">#</span>
+<span class="c1"># Licensed under the GPL v3 License;</span>
+<span class="c1"># you may not use this file except in compliance with the License.</span>
+<span class="c1"># You may obtain a copy of the License at</span>
+<span class="c1">#</span>
+<span class="c1">#     http://opensource.org/licenses/GPL v3</span>
+<span class="c1">#</span>
+<span class="c1"># Unless required by applicable law or agreed to in writing, software</span>
+<span class="c1"># distributed under the License is distributed on an &quot;AS IS&quot; BASIS,</span>
+<span class="c1"># WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.</span>
+<span class="c1"># See the License for the specific language governing permissions and</span>
+<span class="c1"># limitations under the License.</span>
+<span class="c1"># ====================================================================</span>
+
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">=======================================================</span>
+<span class="sd">Latent Space Alignment Utilities</span>
+<span class="sd">=======================================================</span>
+
+<span class="sd">This module provides utility functions for aligning latent space coordinates</span>
+<span class="sd">across multiple MCMC chains in latent space IRT models. The main functionality</span>
+<span class="sd">is based on Procrustes rotation, enabling consistent interpretation of latent</span>
+<span class="sd">dimensions across chains and facilitating downstream analysis and visualization.</span>
+
+<span class="sd">Latent Space Alignment Process</span>
+<span class="sd">==============================</span>
+
+<span class="sd">The alignment process is performed in the following stages:</span>
+
+<span class="sd">1. **Extraction**:</span>
+
+<span class="sd">   - Extract latent coordinates for persons and items from Stan draws by chain.</span>
+
+<span class="sd">2. **Alignment**:</span>
+
+<span class="sd">   - Align latent spaces across chains using Procrustes analysis, referencing a</span>
+<span class="sd">     selected chain for consistent orientation.</span>
+
+<span class="sd">3. **Replacement**:</span>
+
+<span class="sd">   - Replace original latent coordinates in Stan draws with aligned coordinates,</span>
+<span class="sd">     preserving all other parameters and metadata.</span>
+
+<span class="sd">.. Note::</span>
+<span class="sd">    - All alignment is performed in-place on copies of the original draws.</span>
+<span class="sd">    - Functions assume Stan output format with ``chain__`` column and parameter</span>
+<span class="sd">      names in ``prefix[i,d]`` format.</span>
+
+<span class="sd">.. Important::</span>
+<span class="sd">    - Reference chain selection impacts orientation; use the default (chain 1)</span>
+<span class="sd">      unless specific justification exists.</span>
+
+<span class="sd">.. currentmodule:: utils.rotate</span>
+
+<span class="sd">Functions</span>
+<span class="sd">=========</span>
+
+<span class="sd">.. autosummary::</span>
+<span class="sd">    :toctree: generated/</span>
+<span class="sd">    :nosignatures:</span>
+<span class="sd">    :template: function_name_only.rst</span>
+
+<span class="sd">    extract_latent_coordinates</span>
+<span class="sd">    align_latent_spaces</span>
+<span class="sd">    create_aligned_draws_dataframe</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="n">__author__</span> <span class="o">=</span> <span class="s2">&quot;William Muntean&quot;</span>
+<span class="n">__email__</span> <span class="o">=</span> <span class="s2">&quot;williamjmuntean@gmail.com&quot;</span>
+<span class="n">__license__</span> <span class="o">=</span> <span class="s2">&quot;GPL v3&quot;</span>
+<span class="n">__maintainer__</span> <span class="o">=</span> <span class="s2">&quot;William Muntean&quot;</span>
+<span class="n">__date__</span> <span class="o">=</span> <span class="s2">&quot;2025-08-29&quot;</span>
+
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">scipy.spatial</span><span class="w"> </span><span class="kn">import</span> <span class="n">procrustes</span>
+
+
+<div class="viewcode-block" id="extract_latent_coordinates">
+<a class="viewcode-back" href="../../reference/generated/utils.rotate.extract_latent_coordinates.html#utils.rotate.extract_latent_coordinates">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">extract_latent_coordinates</span><span class="p">(</span>
+    <span class="n">df_draws</span><span class="p">:</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">,</span> <span class="n">n_entities</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">D</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">prefix</span><span class="p">:</span> <span class="nb">str</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Extract and reshape latent coordinates from Stan draws by chain.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    df_draws : pd.DataFrame</span>
+<span class="sd">        DataFrame containing Stan draws with ``chain__`` column.</span>
+<span class="sd">    n_entities : int</span>
+<span class="sd">        Number of entities (persons or items).</span>
+<span class="sd">    D : int</span>
+<span class="sd">        Number of latent dimensions.</span>
+<span class="sd">    prefix : str</span>
+<span class="sd">        Parameter prefix (e.g., &#39;xi&#39; or &#39;zt_centered&#39;).</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    dict[int, np.ndarray]</span>
+<span class="sd">        Dictionary mapping chain IDs to (n_entities, D) coordinate matrices.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">chain_means</span> <span class="o">=</span> <span class="p">{}</span>
+
+    <span class="k">for</span> <span class="n">chain_id</span> <span class="ow">in</span> <span class="n">df_draws</span><span class="p">[</span><span class="s2">&quot;chain__&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">unique</span><span class="p">():</span>
+        <span class="n">chain_df</span> <span class="o">=</span> <span class="n">df_draws</span><span class="p">[</span><span class="n">df_draws</span><span class="p">[</span><span class="s2">&quot;chain__&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="n">chain_id</span><span class="p">]</span>
+        <span class="n">mean_params</span> <span class="o">=</span> <span class="n">chain_df</span><span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="n">columns</span><span class="o">=</span><span class="s2">&quot;chain__&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span>
+
+        <span class="c1"># Reshape into matrix</span>
+        <span class="n">matrix</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="n">n_entities</span><span class="p">,</span> <span class="n">D</span><span class="p">))</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n_entities</span><span class="p">):</span>
+            <span class="k">for</span> <span class="n">d</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">D</span><span class="p">):</span>
+                <span class="n">param_name</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">prefix</span><span class="si">}</span><span class="s2">[</span><span class="si">{</span><span class="n">i</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="si">}</span><span class="s2">,</span><span class="si">{</span><span class="n">d</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="si">}</span><span class="s2">]&quot;</span>
+                <span class="n">matrix</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="n">d</span><span class="p">]</span> <span class="o">=</span> <span class="n">mean_params</span><span class="p">[</span><span class="n">param_name</span><span class="p">]</span>
+
+        <span class="n">chain_means</span><span class="p">[</span><span class="n">chain_id</span><span class="p">]</span> <span class="o">=</span> <span class="n">matrix</span>
+
+    <span class="k">return</span> <span class="n">chain_means</span></div>
+
+
+
+<div class="viewcode-block" id="align_latent_spaces">
+<a class="viewcode-back" href="../../reference/generated/utils.rotate.align_latent_spaces.html#utils.rotate.align_latent_spaces">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">align_latent_spaces</span><span class="p">(</span>
+    <span class="n">person_coords</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">],</span>
+    <span class="n">item_coords</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">],</span>
+    <span class="n">ref_chain_id</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">dict</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">],</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]]:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Align latent spaces across chains using Procrustes analysis.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    person_coords : dict[int, np.ndarray]</span>
+<span class="sd">        Person coordinates by chain.</span>
+<span class="sd">    item_coords : dict[int, np.ndarray]</span>
+<span class="sd">        Item coordinates by chain.</span>
+<span class="sd">    ref_chain_id : int, optional</span>
+<span class="sd">        Reference chain ID for alignment. Default is 1.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    tuple[dict[int, np.ndarray], dict[int, np.ndarray]]</span>
+<span class="sd">        Aligned person and item coordinates by chain.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1"># Create reference matrix</span>
+    <span class="n">reference_matrix</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">vstack</span><span class="p">(</span>
+        <span class="p">[</span><span class="n">person_coords</span><span class="p">[</span><span class="n">ref_chain_id</span><span class="p">],</span> <span class="n">item_coords</span><span class="p">[</span><span class="n">ref_chain_id</span><span class="p">]]</span>
+    <span class="p">)</span>
+
+    <span class="n">aligned_person_coords</span> <span class="o">=</span> <span class="p">{</span><span class="n">ref_chain_id</span><span class="p">:</span> <span class="n">person_coords</span><span class="p">[</span><span class="n">ref_chain_id</span><span class="p">]}</span>
+    <span class="n">aligned_item_coords</span> <span class="o">=</span> <span class="p">{</span><span class="n">ref_chain_id</span><span class="p">:</span> <span class="n">item_coords</span><span class="p">[</span><span class="n">ref_chain_id</span><span class="p">]}</span>
+
+    <span class="n">n_persons</span> <span class="o">=</span> <span class="n">person_coords</span><span class="p">[</span><span class="n">ref_chain_id</span><span class="p">]</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+
+    <span class="k">for</span> <span class="n">chain_id</span> <span class="ow">in</span> <span class="n">person_coords</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
+        <span class="k">if</span> <span class="n">chain_id</span> <span class="o">==</span> <span class="n">ref_chain_id</span><span class="p">:</span>
+            <span class="k">continue</span>
+
+        <span class="c1"># Combine current chain coordinates</span>
+        <span class="n">current_matrix</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">vstack</span><span class="p">([</span><span class="n">person_coords</span><span class="p">[</span><span class="n">chain_id</span><span class="p">],</span> <span class="n">item_coords</span><span class="p">[</span><span class="n">chain_id</span><span class="p">]])</span>
+
+        <span class="c1"># Perform Procrustes alignment</span>
+        <span class="n">_</span><span class="p">,</span> <span class="n">aligned_matrix</span><span class="p">,</span> <span class="n">disparity</span> <span class="o">=</span> <span class="n">procrustes</span><span class="p">(</span><span class="n">reference_matrix</span><span class="p">,</span> <span class="n">current_matrix</span><span class="p">)</span>
+
+        <span class="nb">print</span><span class="p">(</span>
+            <span class="sa">f</span><span class="s2">&quot;Aligning Chain </span><span class="si">{</span><span class="n">chain_id</span><span class="si">}</span><span class="s2"> to Chain </span><span class="si">{</span><span class="n">ref_chain_id</span><span class="si">}</span><span class="s2">. &quot;</span>
+            <span class="sa">f</span><span class="s2">&quot;Disparity: </span><span class="si">{</span><span class="n">disparity</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">&quot;</span>
+        <span class="p">)</span>
+
+        <span class="c1"># Split back into person and item parts</span>
+        <span class="n">aligned_person_coords</span><span class="p">[</span><span class="n">chain_id</span><span class="p">]</span> <span class="o">=</span> <span class="n">aligned_matrix</span><span class="p">[:</span><span class="n">n_persons</span><span class="p">,</span> <span class="p">:]</span>
+        <span class="n">aligned_item_coords</span><span class="p">[</span><span class="n">chain_id</span><span class="p">]</span> <span class="o">=</span> <span class="n">aligned_matrix</span><span class="p">[</span><span class="n">n_persons</span><span class="p">:,</span> <span class="p">:]</span>
+
+    <span class="k">return</span> <span class="n">aligned_person_coords</span><span class="p">,</span> <span class="n">aligned_item_coords</span></div>
+
+
+
+<div class="viewcode-block" id="create_aligned_draws_dataframe">
+<a class="viewcode-back" href="../../reference/generated/utils.rotate.create_aligned_draws_dataframe.html#utils.rotate.create_aligned_draws_dataframe">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">create_aligned_draws_dataframe</span><span class="p">(</span>
+    <span class="n">original_draws</span><span class="p">:</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">,</span>
+    <span class="n">aligned_person_coords</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">],</span>
+    <span class="n">aligned_item_coords</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">],</span>
+    <span class="n">D</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Create DataFrame with aligned latent coordinates replacing original draws.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    original_draws : pd.DataFrame</span>
+<span class="sd">        Original Stan draws DataFrame.</span>
+<span class="sd">    aligned_person_coords : dict[int, np.ndarray]</span>
+<span class="sd">        Aligned person coordinates by chain.</span>
+<span class="sd">    aligned_item_coords : dict[int, np.ndarray]</span>
+<span class="sd">        Aligned item coordinates by chain.</span>
+<span class="sd">    D : int</span>
+<span class="sd">        Number of latent dimensions.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    pd.DataFrame</span>
+<span class="sd">        DataFrame with aligned coordinates replacing original latent parameters:</span>
+
+<span class="sd">        - Replaces all ``xi[i,d]`` parameters with aligned person coordinates.</span>
+<span class="sd">        - Replaces all ``zt_centered[i,d]`` parameters with aligned item coordinates.</span>
+<span class="sd">        - Preserves all other parameters and metadata columns.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">aligned_draws</span> <span class="o">=</span> <span class="n">original_draws</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+
+    <span class="c1"># Replace person coordinates</span>
+    <span class="k">for</span> <span class="n">chain_id</span><span class="p">,</span> <span class="n">coords</span> <span class="ow">in</span> <span class="n">aligned_person_coords</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+        <span class="n">chain_mask</span> <span class="o">=</span> <span class="n">aligned_draws</span><span class="p">[</span><span class="s2">&quot;chain__&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="n">chain_id</span>
+        <span class="n">n_persons</span> <span class="o">=</span> <span class="n">coords</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n_persons</span><span class="p">):</span>
+            <span class="k">for</span> <span class="n">d</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">D</span><span class="p">):</span>
+                <span class="n">param_name</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;xi[</span><span class="si">{</span><span class="n">i</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="si">}</span><span class="s2">,</span><span class="si">{</span><span class="n">d</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="si">}</span><span class="s2">]&quot;</span>
+                <span class="k">if</span> <span class="n">param_name</span> <span class="ow">in</span> <span class="n">aligned_draws</span><span class="o">.</span><span class="n">columns</span><span class="p">:</span>
+                    <span class="n">aligned_draws</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">chain_mask</span><span class="p">,</span> <span class="n">param_name</span><span class="p">]</span> <span class="o">=</span> <span class="n">coords</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="n">d</span><span class="p">]</span>
+
+    <span class="c1"># Replace item coordinates</span>
+    <span class="k">for</span> <span class="n">chain_id</span><span class="p">,</span> <span class="n">coords</span> <span class="ow">in</span> <span class="n">aligned_item_coords</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+        <span class="n">chain_mask</span> <span class="o">=</span> <span class="n">aligned_draws</span><span class="p">[</span><span class="s2">&quot;chain__&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="n">chain_id</span>
+        <span class="n">n_items</span> <span class="o">=</span> <span class="n">coords</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n_items</span><span class="p">):</span>
+            <span class="k">for</span> <span class="n">d</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">D</span><span class="p">):</span>
+                <span class="n">param_name</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;zt_centered[</span><span class="si">{</span><span class="n">i</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="si">}</span><span class="s2">,</span><span class="si">{</span><span class="n">d</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="si">}</span><span class="s2">]&quot;</span>
+                <span class="k">if</span> <span class="n">param_name</span> <span class="ow">in</span> <span class="n">aligned_draws</span><span class="o">.</span><span class="n">columns</span><span class="p">:</span>
+                    <span class="n">aligned_draws</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">chain_mask</span><span class="p">,</span> <span class="n">param_name</span><span class="p">]</span> <span class="o">=</span> <span class="n">coords</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="n">d</span><span class="p">]</span>
+
+    <span class="k">return</span> <span class="n">aligned_draws</span></div>
+
+</pre></div>
+
+                </article>
+              
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+          </footer>
+        
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script defer src="../../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf"></script>
+<script defer src="../../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf"></script>
+
+  <footer class="bd-footer">
+<div class="bd-footer__inner bd-page-width">
+  
+    <div class="footer-items__start">
+      
+        <div class="footer-item">
+
+  <p class="copyright">
+    
+      © Copyright 2025, William Muntean.
+      <br/>
+    
+  </p>
+</div>
+      
+    </div>
+  
+  
+    <div class="footer-items__center">
+      
+        <div class="footer-item"><p class="last-updated">
+  Last updated on Oct 21, 2025.
+  <br/>
+</p></div>
+      
+    </div>
+  
+  
+    <div class="footer-items__end">
+      
+        <div class="footer-item">
+<p class="theme-version">
+  <!-- # L10n: Setting the PST URL as an argument as this does not need to be localized -->
+  Built with the <a href="https://pydata-sphinx-theme.readthedocs.io/en/stable/index.html">PyData Sphinx Theme</a> 0.16.1.
+</p></div>
+      
+    </div>
+  
+</div>
+
+  </footer>
+  </body>
+</html>

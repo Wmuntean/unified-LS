@@ -1,0 +1,17 @@
+name: unified_ls
+channels:
+  - conda-forge
+  - defaults
+dependencies:
+  - python=3.12.*
+  - pip
+  - pip:
+    - cmdstanpy~=1.2
+    - matplotlib~=3.9
+    - numpy~=2.2
+    - pandas~=2.2
+    - PyYAML~=6.0
+    - questionary~=2.1
+    - scipy~=1.15
+    - seaborn~=0.13
+    - tomlkit~=0.13

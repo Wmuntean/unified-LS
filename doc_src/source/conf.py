@@ -40,6 +40,7 @@ extensions = [
     "sphinx.ext.githubpages",
     "myst_parser",
     "nbsphinx",
+    "sphinx_design",
 ]
 
 # autodoc_mock_imports = ['packages']
@@ -65,6 +66,7 @@ html_static_path = ["_static"]
 html_show_sphinx = False
 html_css_files = [
     "wordwrap.css",
+    "center_title.css",
 ]
 
 html_theme_options = {
@@ -81,31 +83,34 @@ html_theme_options = {
     "collapse_navigation": True,
     "secondary_sidebar_items": {
         "**": ["page-toc"],
-        "notebooks/*": [],
+        "_notebooks/*": [],
     },
+}
+html_sidebars = {
+    "index_documentation": [],  # disables primary sidebar
 }
 
 # Define the relative collection paths
 collections_config = {
     "notebooks": {
-        "source": f"{project}/notebooks",  # analysis, exploritory, etc
-        "target": "notebooks",
+        "source": "analysis",  # analysis, exploritory, etc
+        "target": "_notebooks",
         "ignore": ["*.py", "__pycache__"],
     },
-    "assets": {
-        "source": "assets",
-        "target": "assets",
-        "ignore": ["*.gitkeep"],
-    },
+    # "assets": {
+    #     "source": "assets",
+    #     "target": "_static",
+    #     "ignore": ["*.gitkeep"],
+    # },
 }
 
 # Copy everything before Sphinx build
-copy_collections(
-    collections_config,
-    source_base=repo_root,
-    target_base=sphinx_source,
-    verbose=True,
-)
+# copy_collections(
+#     collections_config,
+#     source_base=repo_root,
+#     target_base=sphinx_source,
+#     verbose=True,
+# )
 
 
 # Set callback

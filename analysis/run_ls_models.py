@@ -16,7 +16,74 @@
 # ====================================================================
 
 """
-Run LS-PCM models and save results.
+=======================================================
+Latent Space Model Runner
+=======================================================
+
+This module provides functionality to fit and align latent space models
+(IRT, RT, process, unified) using Stan via CmdStanPy. It automates model
+fitting, result saving, and latent space alignment for downstream analysis.
+
+Latent Space Modeling Workflow
+==============================
+
+The modeling workflow is performed in the following stages:
+
+1. **Stan Model Fitting**:
+
+   - Fit Stan latent space models for different modalities (PCM, LNRT, ZINB, ZIP, unified).
+
+2. **Result Saving**:
+
+   - Save raw and aligned model outputs to disk in parquet format.
+
+3. **Latent Space Alignment**:
+
+   - Align latent coordinates across chains using Procrustes analysis.
+
+.. Note::
+    - All models are fit using CmdStanPy with parallel chains and custom initializations.
+    - Alignment uses functions from the ``utils.rotate`` module.
+
+.. Important::
+    - Ensure data preprocessing and correct Stan model paths before execution.
+
+.. currentmodule:: analysis.run_ls_models
+
+Functions
+=========
+
+.. autosummary::
+    :toctree: generated/
+    :nosignatures:
+    :template: function_name_only.rst
+
+    run_stan_model
+
+Standalone Execution
+=====================
+When run as a standalone script, this module fits all latent space models
+on the preprocessed dataset and outputs results to the ``results/`` directory.
+
+.. code-block:: bash
+
+    python run_ls_models.py
+
+- Output Files:
+    - ``ls-pcm.parquet``
+    - ``ls-lnrt.parquet``
+    - ``ls-zinb.parquet``
+    - ``ls-zip.parquet``
+    - ``ls-unified_pip.parquet``
+    - ``ls-unified_separate_gamma_pip.parquet``
+
+.. Note::
+   The following paths must be correctly set within the script's ``__main__`` block for successful
+   execution:
+
+   - ``DATA_PATH``: Path to the input data parquet file.
+   - ``MODEL_PATH``: Path to Stan model files.
+   - ``RESULTS_PATH``: Path for saving model outputs.
 """
 
 __author__ = "William Muntean"
@@ -43,6 +110,29 @@ MODEL_PATH = ROOT_PATH / "analysis" / "models"
 
 
 def run_stan_model(model_path: Path | str, run_name: Path | str, stan_data: dict):
+    """
+    Fit a Stan latent space model and save results.
+
+    Fits the specified Stan model using CmdStanPy, saves raw and aligned
+    outputs, and performs latent space alignment using Procrustes analysis.
+
+    Parameters
+    ----------
+    model_path : Path or str
+        Path to the Stan model file.
+    run_name : Path or str
+        Name for the output directory and result files.
+    stan_data : dict
+        Dictionary of data to pass to Stan.
+
+    Returns
+    -------
+    None
+
+    .. Note::
+        - Saves raw and aligned draws as parquet files in ``RESULTS_PATH``.
+        - Uses ``utils.rotate`` for latent space alignment.
+    """
     model = cmdstanpy.CmdStanModel(
         stan_file=model_path, cpp_options={"STAN_THREADS": True}
     )

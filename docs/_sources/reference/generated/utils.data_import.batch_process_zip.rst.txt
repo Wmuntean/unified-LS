@@ -1,0 +1,4 @@
+﻿batch\_process\_zip
+===================
+
+.. autofunction:: utils.data_import.batch_process_zip

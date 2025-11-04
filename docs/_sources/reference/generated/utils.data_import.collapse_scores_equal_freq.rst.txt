@@ -1,0 +1,4 @@
+﻿collapse\_scores\_equal\_freq
+=============================
+
+.. autofunction:: utils.data_import.collapse_scores_equal_freq

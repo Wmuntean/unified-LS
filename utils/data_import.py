@@ -15,30 +15,6 @@
 # limitations under the License.
 # ====================================================================
 
-""" """
-
-__author__ = "William Muntean"
-__email__ = "williamjmuntean@gmail.com"
-__license__ = "GPL v3"
-__maintainer__ = "William Muntean"
-__date__ = "2025-08-22"
-
-
-import sys
-import xml.etree.ElementTree as ET
-from datetime import datetime
-from pathlib import Path
-from zipfile import ZipFile
-
-import pandas as pd
-import yaml
-
-ROOT_PATH = (
-    Path("__file__").resolve().parents[0]
-)  # 0 for .py or unsaved notebooks and 1 for .ipynb
-sys.path.append(ROOT_PATH.as_posix())
-
-
 """
 =======================================================
 Process Data Import Module
@@ -65,25 +41,25 @@ The process is performed in the following stages:
 
 4. **Score Collapsing**:
    - Collapses item scores into no more than three categories per item,
-     using quantile binning if more than three unique scores exist.
+   using quantile binning if more than three unique scores exist.
 
 Final DataFrame Variables
 =========================
 The final DataFrame produced by this module contains the following columns:
 
-    - ``person_id``: 1-indexed person identifier.
-    - ``item_id``: 1-indexed item identifier.
-    - ``itemset_id``: 1-indexed item set identifier.
-    - ``rt``: Response time (seconds) for each item.
-    - ``op_theta``: Operational theta (ability estimate).
-    - ``item_type``: Item type label.
-    - ``score``: Item score (integer, collapsed if needed).
-    - ``total_interactions``: Number of interactions per item.
-    - ``exhibit_interactions``: Number of exhibit interactions per item.
-    - ``has_exhibit``: Boolean, whether item has exhibit.
-    - ``response_selections``: Number of response selections.
-    - ``response_changes``: Number of response changes.
-    - ``time_spent_seconds``: Time spent on item.
+- ``person_id``: 1-indexed person identifier.
+- ``item_id``: 1-indexed item identifier.
+- ``itemset_id``: 1-indexed item set identifier.
+- ``rt``: Response time (seconds) for each item.
+- ``op_theta``: Operational theta (ability estimate).
+- ``item_type``: Item type label.
+- ``score``: Item score (integer, collapsed if needed).
+- ``total_interactions``: Number of interactions per item.
+- ``exhibit_interactions``: Number of exhibit interactions per item.
+- ``has_exhibit``: Boolean, whether item has exhibit.
+- ``response_selections``: Number of response selections.
+- ``response_changes``: Number of response changes.
+- ``time_spent_seconds``: Time spent on item.
 
 .. Note::
     - This module is designed for general item-level interaction data.
@@ -94,7 +70,7 @@ The final DataFrame produced by this module contains the following columns:
       more than three unique score points. For demonstration purposes
       only; simplifies analyses.
 
-.. currentmodule:: data_import
+.. currentmodule:: utils.data_import
 
 Functions
 =========
@@ -115,20 +91,41 @@ When run as a standalone script, this module processes interaction data,
 cleans and merges response data, collapses scores, and outputs the results
 to parquet format.
 
-- Output Files:
-    - ``COTS_2025_data.parquet``
+.. code-block:: bash
+
+    python data_import.py
+
+Output Files:
+-------------
+- ``COTS_2025_data.parquet``
 
 .. Note::
    The following paths must be correctly set within the script's ``__main__``
    block for successful execution:
 
    - ``DATA_PATH``: Directory containing input and output data.
-
-.. code-block:: bash
-
-    python data_import.py
-
 """
+
+__author__ = "William Muntean"
+__email__ = "williamjmuntean@gmail.com"
+__license__ = "GPL v3"
+__maintainer__ = "William Muntean"
+__date__ = "2025-08-22"
+
+
+import sys
+import xml.etree.ElementTree as ET
+from datetime import datetime
+from pathlib import Path
+from zipfile import ZipFile
+
+import pandas as pd
+import yaml
+
+ROOT_PATH = (
+    Path("__file__").resolve().parents[0]
+)  # 0 for .py or unsaved notebooks and 1 for .ipynb
+sys.path.append(ROOT_PATH.as_posix())
 
 
 def parse_process_data(xml_file):
@@ -304,7 +301,7 @@ def clean_parsed_data(parsed_data):
 def batch_process_zip(process_path: Path) -> pd.DataFrame:
     """
     Unzips each file matching ``*.zip`` in ``process_path`` and processes
-    the ``3.exam.interaction.xml`` file inside.
+    the xml file inside.
 
     Parameters
     ----------
